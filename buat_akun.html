@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Furniture Store</title>
+    <title>Retro Cafe</title>
 </head>
 <style>
     .bod {
-        background: linear-gradient(to left, #652410, #a85d1b);
+        background-image: url('fotokopi.jpg');
     }
     .center {
         margin: auto;
@@ -13,39 +13,89 @@
         top: 0; left: 0; bottom: 0; right: 0;
     }
     .container {
-        width: 500px;
-        height: 300px;
-        border-radius: 15%;
+        width: 450px;
+        height: 350px;
+        border-radius: 10rex;
     }
 
     .containerinput {
         width: 300px;
         height: 40px;
+        border: 2px solid #ebebeb;
+        padding: 0.25px;
+        transition: all 0.375s;
     }
     .centerinputusername {
-        margin-left: 100px;
-        margin-top: 40px;
+        margin-left: 75px;
+        margin-top: 15px;
     }
     .centerinputpassword {
-        margin-left: 100px;
+        margin-left: 75px;
         margin-top: 20px;
     }
     .buatakun {
         margin-left: 370px;
     }
+    .submit {
+        margin-left: 185px;
+        margin-top: 20px;
+        background-color: #a85d1b;
+        color: white;
+        width: 80px;
+        height: 35px;
+        border-radius: 15rex;
+        transition: all 0.375s;
+    }
+    .submit:hover {
+        transform: scale(1.07);
+        background: linear-gradient(to left, #652410, #a85d1b);
+    }
+    .containerinput:hover {
+        transform: scale(1.05);
+        background: linear-gradient(to left, #FFFAFA);
+    }
     
 </style>
 <body class="bod">
-    <div class="container center" style="background-color: #FAEBD7;">
+    <div class="container center" style="background-color: #d2a46c;">
         <div>
-            <h2 style="margin-left: 185px; margin-top: 35px; color: #652410;">BUAT AKUN</h2>
+            <h2 style="margin-left: 155px; margin-top: 35px; color: #FFFAFA;">BUAT AKUN</h2>
         </div>
-        <div class="containerinput centerinputusername" >
-            <input type="text" placeholder="Username" class="containerinput" style="background-color: #FFFAFA;" />
-        </div>
-        <div class="containerinput centerinputpassword" >
-            <input type="text" placeholder="password" class="containerinput" style="background-color: #FFFAFA;" />
-        </div>
+        <form id="form">
+            <input type="text" id="username" placeholder="Username" class="containerinput centerinputusername" style="background-color: #FFFAFA; border-radius: 1.25rem; padding-left: 10px;" />
+            <input type="password" id="password" placeholder="Password" class="containerinput centerinputpassword" style="background-color: #FFFAFA; border-radius: 1.25rem; padding-left: 10px;" />
+            <input type="password" id="confirmPassword" placeholder="Konfirmasi Password" class="containerinput centerinputpassword" style="background-color: #FFFAFA; border-radius: 1.25rem; padding-left: 10px;" />
+            <input type="submit" class="submit"></input>
+        </form>
     </div>
+    <script>
+        document.querySelector('.submit').addEventListener('click', register);
+
+        async function register(ev) {
+            ev.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            if (password !== confirmPassword) {
+                alert('Password tidak sama');
+                return;
+            }
+            const response = await fetch('http://localhost:3000/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password: password })
+            });
+            const data = await response.json();
+            console.log(data);
+            if (response.status == 201) {
+                alert('Register berhasil');
+                window.location.href = 'login.html';
+            } else {
+                alert('Register gagal');
+            }
+        }
+    </script>
 </body>
 </html>

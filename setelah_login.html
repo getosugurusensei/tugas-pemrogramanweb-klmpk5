@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setelah Login</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .menu-bar {
+            background-color: #f0f0f0;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .logout {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+        }
+
+        .logout:hover {
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-bar">
+        <div class="logout" onclick="logout()">Logout</div>
+    </div>
+    <script>
+         // Function to check if a cookie exists
+         function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        // Check if the token cookie exists
+        function checkSession() {
+            if (!getCookie('token') || !localStorage.getItem('token')) {
+                alert('Session expired. Please log in again.');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Function to handle logout
+        function logout() {
+            // Clear cookies
+            document.cookie = 'token=; Max-Age=0; path=/';
+            // Clear local storage
+            localStorage.removeItem('username');
+            localStorage.removeItem('token');
+            // Redirect to login page
+            window.location.href = 'login.html';
+        }
+
+        // Periodically check for the token cookie
+        setInterval(checkSession, 1000);
+
+        // Initial check when the page loads
+        checkSession();
+    </script>
+</body>
+</html>
